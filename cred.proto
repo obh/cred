@@ -1,0 +1,81 @@
+syntax = "proto3";
+package credentity;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./generated";
+
+enum GatewayStatus {
+  ACTIVE = 0;
+  TEMPORARILY_DISABLED = 1;
+  DISABLED = 2;
+}
+
+enum GatewayAttrs {
+  TPV = 0;
+  PRE_AUTH = 1;
+  NATIVE_OTP = 2;  
+  SUPPORTS_MASTER = 3;
+}
+
+message GatewayAttrsValues {
+  GatewayAttrs type = 1;
+  bool status = 2;
+  string value = 3;
+}
+
+message Gateway {
+  string name = 1;
+  GatewayStatus status = 2;
+  repeated uint32 payment_codes = 3;
+  repeated BusinessCategories business_categories = 4;
+  repeated uint32 whitelist_mcc = 5;
+  repeated GatewayAttrsValues attrs = 6;
+}
+
+message GatewayCred {
+  string cred_id = 1;
+  CredStatus status = 2;
+  Gateway gateway = 3;
+  GatewayCredScope cred_scope = 4;
+  repeated uint32 payment_codes = 5;
+  repeated BusinessCategories business_categories = 6;
+  repeated uint32 whitelist_mcc = 7;
+  repeated GatewayAttrsValues attrs = 8;  
+  repeated GatewayCredAction history = 9;
+}
+
+enum CredStatus {
+  CRED_ACTIVE = 0;
+  VERIFIED = 1;
+  VERIFICATION_FAILED = 2;
+  DISABLED_BY_CASHFREE = 3;
+  DISABLED_BY_BANK = 4;
+}
+
+message GatewayCredAction {
+  int32 id = 1;
+  uint32 user_id = 2;
+  CredStatus previous_status = 3;
+  CredStatus new_status = 4;
+  string reason = 5;
+  ActionStatus status = 6;
+}
+
+enum ActionStatus {
+  SUCCESS = 0;
+  PENDING = 1;
+  FAILED = 2;
+}
+
+enum BusinessCategories {
+  SKILL_GAMING = 0;
+  ECOMMERCE = 1;
+  NONSKILL_GAMING = 2;
+}
+
+enum GatewayCredScope {
+  DEDICATED = 0;
+  CATEGORY = 1;
+  MASTER = 2;
+}
