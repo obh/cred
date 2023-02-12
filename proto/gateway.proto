@@ -28,7 +28,7 @@ message Gateway {
   repeated uint32 payment_codes = 3;
   repeated BusinessCategories business_categories = 4;
   repeated uint32 whitelist_mcc = 5;
-  repeated GatewayAttrsValues attrs = 6;
+  repeated GatewayAttrs attrs = 6;
 }
 
 enum BusinessCategories {
