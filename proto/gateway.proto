@@ -1,0 +1,38 @@
+syntax = "proto3";
+package credentity;
+
+option go_package = "./generated";
+
+enum GatewayStatus {
+  ACTIVE = 0;
+  TEMPORARILY_DISABLED = 1;
+  DISABLED = 2;
+}
+
+enum GatewayAttrs {
+  TPV = 0;
+  PRE_AUTH = 1;
+  NATIVE_OTP = 2;  
+  SUPPORTS_MASTER = 3;
+}
+
+message GatewayAttrsValues {
+  GatewayAttrs type = 1;
+  bool status = 2;
+  string value = 3;
+}
+
+message Gateway {
+  string name = 1;
+  GatewayStatus status = 2;
+  repeated uint32 payment_codes = 3;
+  repeated BusinessCategories business_categories = 4;
+  repeated uint32 whitelist_mcc = 5;
+  repeated GatewayAttrsValues attrs = 6;
+}
+
+enum BusinessCategories {
+  SKILL_GAMING = 0;
+  ECOMMERCE = 1;
+  NONSKILL_GAMING = 2;
+}
